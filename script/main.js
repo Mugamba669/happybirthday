@@ -77,7 +77,12 @@ const animationTimeline = () => {
     "-=1")
     .from(".three", 0.7, {
         opacity: 0,
-        y: 10
+        y: 10,
+        onStart: () => {
+            if (window.birthdayEffects) {
+                window.birthdayEffects.heartConfetti();
+            }
+        }
     })
     .to(".three",
         0.7,
@@ -87,10 +92,6 @@ const animationTimeline = () => {
         },
     "+=3")
     .from(".four", 0.7, {
-        scale: 0.2,
-        opacity: 0,
-    })
-    .from(".fake-btn", 0.3, {
         scale: 0.2,
         opacity: 0,
     })
@@ -226,6 +227,12 @@ const animationTimeline = () => {
             rotationY: 0,
             color: "#ff69b4",
             ease: Expo.easeOut,
+            onComplete: () => {
+                // Launch confetti celebration when "Happy Birthday" appears
+                if (window.birthdayEffects) {
+                    window.birthdayEffects.celebrate();
+                }
+            }
         },
         0.1,
         "party"
@@ -239,6 +246,12 @@ const animationTimeline = () => {
         },
         "party"
     )
+    .add(() => {
+        // Show 3D cake
+        if (window.birthdayEffects) {
+            window.birthdayEffects.showCake();
+        }
+    }, "party+=0.5")
     .staggerTo(
         ".eight svg",
         1.5, {
